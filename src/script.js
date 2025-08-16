@@ -18,14 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Sidebar Elements
     const sidebar = document.getElementById('sidebar');
+    
+    // FAQ Elements
+    const faqBtn = document.getElementById('faq-btn');
+    const faqModal = document.getElementById('faq-modal');
+    const closeFaqBtn = document.getElementById('close-faq-btn');
+    const faqMessages = document.getElementById('faq-messages');
+    const faqButtons = document.getElementById('faq-buttons');
 
     // State
     let contractStructure = {};
+    let faqData = [];
     let currentDocument = 'important';
     let currentSectionId = 'i1';
     let isSpeaking = false;
     let isPaused = false;
     let speechRate = 1.0;
+    let continuousPlay = false;
 
     // Web Speech API
     const synth = window.speechSynthesis;
@@ -34,8 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data Loading ---
     async function loadData() {
         try {
-            const structureRes = await fetch('./src/data/contract_structure.json');
+            const [structureRes, faqRes] = await Promise.all([
+                fetch('./src/data/contract_structure.json'),
+                fetch('./src/data/faq.json')
+            ]);
             contractStructure = await structureRes.json();
+            faqData = await faqRes.json();
             initialize();
         } catch (error) {
             console.error('データの読み込みに失敗しました:', error);
@@ -48,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         buildSidebar();
         updateContent();
         updateProgress();
+        setupFAQButtons();
     }
 
     // --- Sidebar Management ---
@@ -217,9 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 synth.pause();
                 isPaused = true;
+                continuousPlay = false;
                 playPauseBtn.textContent = '▶ 再生';
             }
         } else {
+            continuousPlay = true; // 連続再生モードを有効化
             startSpeech();
         }
     }
@@ -239,7 +255,20 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         utterance.onend = () => {
-            stopSpeech();
+            if (continuousPlay) {
+                // 連続再生モード: 次のセクションに自動進行
+                const currentIndex = getCurrentSectionIndex();
+                const totalSections = getTotalSections();
+                if (currentIndex < totalSections - 1) {
+                    navigateToSectionByIndex(currentIndex + 1);
+                    setTimeout(() => startSpeech(), 500); // 少し待ってから次を再生
+                } else {
+                    stopSpeech();
+                    continuousPlay = false;
+                }
+            } else {
+                stopSpeech();
+            }
         };
 
         synth.speak(utterance);
@@ -251,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         isSpeaking = false;
         isPaused = false;
+        continuousPlay = false;
         playPauseBtn.textContent = '▶ 再生';
         characterImage.classList.remove('speaking');
     }
@@ -298,9 +328,12 @@ document.addEventListener('DOMContentLoaded', () => {
         speechRate = parseFloat(e.target.value);
         speedLabel.textContent = `${speechRate.toFixed(1)}倍`;
         
+        // 読み上げ中の場合は即時反映
         if (isSpeaking && !isPaused) {
-            stopSpeech();
-            startSpeech();
+            const wasContinuous = continuousPlay;
+            synth.cancel(); // 現在の読み上げを停止
+            continuousPlay = wasContinuous; // 連続再生状態を復元
+            setTimeout(() => startSpeech(), 100); // 新しい速度で再開
         }
     });
 
@@ -315,6 +348,47 @@ document.addEventListener('DOMContentLoaded', () => {
         completionModal.classList.add('hidden');
     });
 
+    // --- FAQ Modal ---
+    faqBtn.addEventListener('click', () => {
+        faqModal.classList.remove('hidden');
+    });
+
+    closeFaqBtn.addEventListener('click', () => {
+        faqModal.classList.add('hidden');
+    });
+
+    function setupFAQButtons() {
+        faqButtons.innerHTML = '';
+        faqData.forEach(faq => {
+            const button = document.createElement('button');
+            button.className = 'faq-button';
+            button.textContent = faq.question;
+            button.addEventListener('click', () => {
+                addUserMessage(faq.question);
+                setTimeout(() => {
+                    addBotMessage(faq.answer);
+                    speakText(faq.answer);
+                }, 500);
+            });
+            faqButtons.appendChild(button);
+        });
+    }
+
+    function addUserMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'faq-message user';
+        messageDiv.textContent = message;
+        faqMessages.appendChild(messageDiv);
+        faqMessages.scrollTop = faqMessages.scrollHeight;
+    }
+
+    function addBotMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'faq-message bot';
+        messageDiv.textContent = message;
+        faqMessages.appendChild(messageDiv);
+        faqMessages.scrollTop = faqMessages.scrollHeight;
+    }
 
     // --- Initial Load ---
     loadData();

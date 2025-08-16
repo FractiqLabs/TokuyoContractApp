@@ -30,6 +30,9 @@
             </div>
             <div id="sidebar">
                 <div class="sidebar-section">
+                    <button id="faq-btn" class="faq-sidebar-btn">❓ よくある質問</button>
+                </div>
+                <div class="sidebar-section">
                     <div class="sidebar-header" data-section="contract">📄 入居契約書</div>
                     <div class="sidebar-content" id="contract-sections"></div>
                 </div>
@@ -76,6 +79,18 @@
         </div>
     </div>
 
+    <div id="faq-modal" class="hidden">
+        <div id="faq-content">
+            <div id="faq-header">
+                <h2>❓ よくある質問</h2>
+                <button id="close-faq-btn">×</button>
+            </div>
+            <div id="faq-messages"></div>
+            <div id="faq-input-area">
+                <div id="faq-buttons"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="./src/script.js"></script>
 </body>
