@@ -80,14 +80,15 @@ main {
 }
 
 #character-container {
-    flex-basis: 20%;
+    flex-basis: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
 }
 
 #character-image {
@@ -122,23 +123,27 @@ main {
 }
 
 #contract-container {
-    flex-basis: 50%;
+    flex-basis: 35%;
     background-color: #fff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
     overflow-y: auto;
 }
 
 #contract-content h2 {
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: 600;
 }
 
 #contract-content p {
-    font-size: 1.3rem;
-    line-height: 1.8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #34495e;
 }
 
 footer {
@@ -193,35 +198,37 @@ footer {
 }
 
 .control-btn, #faq-btn, #close-faq-btn {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-}
-
-.control-btn {
-    background-color: var(--primary-color);
-    color: var(--light-text-color);
+    transition: all 0.2s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .control-btn:hover {
-    background-color: #3a7ac8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .control-btn:active {
-    transform: scale(0.98);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 #faq-btn {
-    background-color: var(--secondary-color);
-    color: var(--light-text-color);
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
 }
 
 #faq-btn:hover {
-    background-color: #e0930f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
 }
 
 /* Modal Styles */
@@ -306,55 +313,76 @@ footer {
 }
 
 #complete-btn {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
 }
 
 #complete-btn:hover {
-    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
 }
 
 /* Sidebar Styles */
 #sidebar {
-    flex-basis: 30%;
+    flex-basis: 25%;
     background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
     overflow-y: auto;
     max-height: 100%;
 }
 
 .sidebar-section {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
 }
 
 .sidebar-header {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #2c3e50;
     cursor: pointer;
-    padding: 10px;
-    border-radius: 8px;
-    transition: background-color 0.2s;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
     user-select: none;
+    background-color: #f8f9fa;
 }
 
 .sidebar-header:hover {
-    background-color: #e8f4fd;
+    background-color: #e9ecef;
 }
 
 .sidebar-header.active {
-    background-color: var(--primary-color);
+    background-color: #3498db;
     color: white;
+}
+
+.sidebar-header.active .tree-icon {
+    transform: rotate(90deg);
+}
+
+.tree-icon {
+    margin-right: 8px;
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+    color: #7f8c8d;
+}
+
+.tree-title {
+    flex-grow: 1;
 }
 
 .sidebar-content {
     display: none;
-    margin-top: 10px;
-    padding-left: 15px;
+    margin-top: 6px;
+    padding-left: 20px;
+    border-left: 2px solid #ecf0f1;
 }
 
 .sidebar-content.active {
@@ -363,44 +391,58 @@ footer {
 
 .sidebar-link {
     display: block;
-    padding: 8px 12px;
-    color: var(--text-color);
+    padding: 6px 12px;
+    color: #34495e;
     text-decoration: none;
-    border-radius: 5px;
-    margin: 3px 0;
-    transition: background-color 0.2s;
-    font-size: 0.95rem;
+    border-radius: 4px;
+    margin: 2px 0;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    position: relative;
+}
+
+.sidebar-link:before {
+    content: "•";
+    margin-right: 8px;
+    color: #bdc3c7;
 }
 
 .sidebar-link:hover {
-    background-color: #f8f9fa;
-    color: var(--primary-color);
+    background-color: #f1f2f6;
+    color: #2c3e50;
+    padding-left: 16px;
 }
 
 .sidebar-link.active {
-    background-color: var(--secondary-color);
+    background-color: #e74c3c;
     color: white;
-    font-weight: bold;
+    font-weight: 500;
+}
+
+.sidebar-link.active:before {
+    color: white;
 }
 
 /* FAQ Sidebar Button */
 .faq-sidebar-btn {
     width: 100%;
-    padding: 12px;
-    background-color: var(--secondary-color);
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     margin-top: 15px;
     margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .faq-sidebar-btn:hover {
-    background-color: #e0930f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
 }
 
 /* FAQ Chat Container in Sidebar */

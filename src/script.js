@@ -107,13 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const header = document.querySelector(`[data-section="${sectionKey}"]`);
         const content = document.getElementById(`${sectionKey}-sections`);
         
+        // 現在のセクションが既に開いているかチェック
+        const isCurrentlyActive = header.classList.contains('active');
+        
         // すべてのセクションを閉じる
         document.querySelectorAll('.sidebar-header').forEach(h => h.classList.remove('active'));
         document.querySelectorAll('.sidebar-content').forEach(c => c.classList.remove('active'));
         
-        // 選択されたセクションを開く
-        header.classList.add('active');
-        content.classList.add('active');
+        // 既に開いていなかった場合のみ開く（クリックで開閉トグル）
+        if (!isCurrentlyActive) {
+            header.classList.add('active');
+            content.classList.add('active');
+        }
     }
 
     function navigateToSection(documentType, sectionId) {
