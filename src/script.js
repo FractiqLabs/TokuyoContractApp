@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadData() {
         try {
             const [contractRes, faqRes] = await Promise.all([
-                fetch('../src/data/contract.json'),
-                fetch('../src/data/faq.json')
+                fetch('./src/data/contract.json'),
+                fetch('./src/data/faq.json')
             ]);
             contractData = await contractRes.json();
             faqData = await faqRes.json();

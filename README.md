@@ -49,8 +49,11 @@ TokuyoContractApp/
 
 ## 🚀 使用方法
 
+### オンライン版（推奨）
+**アプリURL**: https://fractiqlabs.github.io/TokuyoContractApp/
+
 ### 家族向け操作
-1. `index.html`をWebブラウザで開く
+1. 上記URLにアクセス、または`index.html`をWebブラウザで開く
 2. 「▶ 再生」ボタンで音声読み上げを開始
 3. 速度調整スライダーで読み上げ速度を調整
 4. 「？ 質問する」からよくある質問を確認
@@ -58,7 +61,7 @@ TokuyoContractApp/
 6. 最終セクションで「✓ 説明完了」をクリック
 
 ### 管理者操作
-1. `admin.html`をWebブラウザで開く
+1. https://fractiqlabs.github.io/TokuyoContractApp/admin.html にアクセス、または`admin.html`をWebブラウザで開く
 2. 各タブから管理機能にアクセス
    - **コンテンツ管理**: 契約書・FAQ編集
    - **利用記録**: 使用履歴の確認・出力
