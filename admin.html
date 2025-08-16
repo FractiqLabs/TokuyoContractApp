@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者画面 - 特養入居契約デジタル化システム</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            color: #666;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: #4a90e2;
+            border-bottom-color: #4a90e2;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+        
+        .section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #4a90e2;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .records-table th,
+        .records-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .records-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>管理者画面</h1>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('content')">コンテンツ管理</button>
+            <button class="tab" onclick="showTab('records')">利用記録</button>
+            <button class="tab" onclick="showTab('settings')">システム設定</button>
+        </div>
+        
+        <!-- コンテンツ管理タブ -->
+        <div id="content" class="tab-content active">
+            <div class="section">
+                <h3>契約書セクション編集</h3>
+                <div class="form-group">
+                    <label for="section-select">セクション選択:</label>
+                    <select id="section-select">
+                        <option value="">セクションを選択してください</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="section-title">タイトル:</label>
+                    <input type="text" id="section-title" placeholder="セクションタイトル">
+                </div>
+                <div class="form-group">
+                    <label for="section-content">内容:</label>
+                    <textarea id="section-content" placeholder="セクション内容"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="saveSection()">保存</button>
+                <button class="btn btn-success" onclick="addNewSection()">新規追加</button>
+                <button class="btn btn-danger" onclick="deleteSection()">削除</button>
+            </div>
+            
+            <div class="section">
+                <h3>よくある質問編集</h3>
+                <div class="form-group">
+                    <label for="faq-select">質問選択:</label>
+                    <select id="faq-select">
+                        <option value="">質問を選択してください</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="faq-question">質問:</label>
+                    <input type="text" id="faq-question" placeholder="質問内容">
+                </div>
+                <div class="form-group">
+                    <label for="faq-answer">回答:</label>
+                    <textarea id="faq-answer" placeholder="回答内容"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="saveFaq()">保存</button>
+                <button class="btn btn-success" onclick="addNewFaq()">新規追加</button>
+                <button class="btn btn-danger" onclick="deleteFaq()">削除</button>
+            </div>
+        </div>
+        
+        <!-- 利用記録タブ -->
+        <div id="records" class="tab-content">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-completions">0</div>
+                    <div class="stat-label">説明完了件数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avg-duration">0分</div>
+                    <div class="stat-label">平均所要時間</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-today">0</div>
+                    <div class="stat-label">本日の利用数</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>利用記録一覧</h3>
+                <table class="records-table" id="records-table">
+                    <thead>
+                        <tr>
+                            <th>完了日時</th>
+                            <th>所要時間</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 記録がここに表示されます -->
+                    </tbody>
+                </table>
+                <button class="btn btn-success" onclick="exportRecords()">CSV出力</button>
+                <button class="btn btn-danger" onclick="clearRecords()">記録クリア</button>
+            </div>
+        </div>
+        
+        <!-- システム設定タブ -->
+        <div id="settings" class="tab-content">
+            <div class="section">
+                <h3>キャラクター設定</h3>
+                <div class="form-group">
+                    <label for="character-name">キャラクター名:</label>
+                    <input type="text" id="character-name" value="双葉">
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()">設定保存</button>
+            </div>
+            
+            <div class="section">
+                <h3>音声設定</h3>
+                <div class="form-group">
+                    <label for="default-speed">デフォルト読み上げ速度:</label>
+                    <select id="default-speed">
+                        <option value="0.5">0.5倍</option>
+                        <option value="0.8">0.8倍</option>
+                        <option value="1.0" selected>1.0倍</option>
+                        <option value="1.2">1.2倍</option>
+                        <option value="1.5">1.5倍</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()">設定保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // タブ切り替え
+        function showTab(tabName) {
+            // すべてのタブとコンテンツを非表示
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 選択されたタブとコンテンツを表示
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'records') {
+                loadRecords();
+            }
+        }
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSections();
+            loadFaqs();
+            loadRecords();
+        });
+        
+        // セクション読み込み
+        async function loadSections() {
+            try {
+                const response = await fetch('./src/data/contract.json');
+                const sections = await response.json();
+                const select = document.getElementById('section-select');
+                select.innerHTML = '<option value="">セクションを選択してください</option>';
+                
+                sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section.id;
+                    option.textContent = section.title;
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', function() {
+                    const selectedSection = sections.find(s => s.id == this.value);
+                    if (selectedSection) {
+                        document.getElementById('section-title').value = selectedSection.title;
+                        document.getElementById('section-content').value = selectedSection.content;
+                    }
+                });
+            } catch (error) {
+                console.error('セクション読み込みエラー:', error);
+            }
+        }
+        
+        // FAQ読み込み
+        async function loadFaqs() {
+            try {
+                const response = await fetch('./src/data/faq.json');
+                const faqs = await response.json();
+                const select = document.getElementById('faq-select');
+                select.innerHTML = '<option value="">質問を選択してください</option>';
+                
+                faqs.forEach(faq => {
+                    const option = document.createElement('option');
+                    option.value = faq.id;
+                    option.textContent = faq.question;
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', function() {
+                    const selectedFaq = faqs.find(f => f.id == this.value);
+                    if (selectedFaq) {
+                        document.getElementById('faq-question').value = selectedFaq.question;
+                        document.getElementById('faq-answer').value = selectedFaq.answer;
+                    }
+                });
+            } catch (error) {
+                console.error('FAQ読み込みエラー:', error);
+            }
+        }
+        
+        // 記録読み込み
+        function loadRecords() {
+            const completionTime = localStorage.getItem('contractCompletionTime');
+            const records = JSON.parse(localStorage.getItem('contractRecords') || '[]');
+            
+            // 統計情報更新
+            document.getElementById('total-completions').textContent = records.length;
+            
+            const today = new Date().toDateString();
+            const todayCount = records.filter(r => new Date(r.date).toDateString() === today).length;
+            document.getElementById('total-today').textContent = todayCount;
+            
+            // テーブル更新
+            const tbody = document.querySelector('#records-table tbody');
+            tbody.innerHTML = '';
+            
+            if (completionTime) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${completionTime}</td>
+                    <td>約1.5時間</td>
+                    <td><button class="btn btn-danger" onclick="clearRecords()">削除</button></td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+        
+        // CSV出力
+        function exportRecords() {
+            const records = JSON.parse(localStorage.getItem('contractRecords') || '[]');
+            let csv = 'Date,Duration\n';
+            records.forEach(record => {
+                csv += `${record.date},${record.duration}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'contract_records.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        // 記録クリア
+        function clearRecords() {
+            if (confirm('すべての記録を削除しますか？')) {
+                localStorage.removeItem('contractCompletionTime');
+                localStorage.removeItem('contractRecords');
+                loadRecords();
+                alert('記録を削除しました。');
+            }
+        }
+        
+        // セクション保存（簡易実装）
+        function saveSection() {
+            alert('セクションを保存しました。（実際の保存機能は実装が必要です）');
+        }
+        
+        // FAQ保存（簡易実装）
+        function saveFaq() {
+            alert('FAQを保存しました。（実際の保存機能は実装が必要です）');
+        }
+        
+        // 設定保存
+        function saveSettings() {
+            const characterName = document.getElementById('character-name').value;
+            const defaultSpeed = document.getElementById('default-speed').value;
+            
+            localStorage.setItem('characterName', characterName);
+            localStorage.setItem('defaultSpeed', defaultSpeed);
+            
+            alert('設定を保存しました。');
+        }
+        
+        // 新規追加・削除機能（簡易実装）
+        function addNewSection() {
+            alert('新規セクション追加機能（実装が必要です）');
+        }
+        
+        function deleteSection() {
+            alert('セクション削除機能（実装が必要です）');
+        }
+        
+        function addNewFaq() {
+            alert('新規FAQ追加機能（実装が必要です）');
+        }
+        
+        function deleteFaq() {
+            alert('FAQ削除機能（実装が必要です）');
+        }
+    </script>
+</body>
+</html>
