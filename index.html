@@ -9,7 +9,7 @@
 <body>
     <div id="app-container">
         <header>
-            <h1>重要事項説明書</h1>
+            <h1>特養入居契約デジタルシステム</h1>
             <div id="progress-container">
                 <div id="progress-bar"></div>
                 <span id="progress-label">1 / 10</span>
@@ -19,6 +19,7 @@
             <div id="character-container">
                 <img src="assets/images/character.svg" alt="VTuberキャラクター" id="character-image">
                 <p id="character-name">説明担当：双葉</p>
+                <button id="chat-btn" class="chat-btn">💬 質問する</button>
             </div>
             <div id="contract-container">
                 <div id="contract-content">
@@ -26,6 +27,28 @@
                     <p id="contract-text">
                         当施設は、入居者様に対し、個別の介護計画に基づき、必要な介護サービスを提供します。サービス内容には、食事、入浴、排泄の介助、健康管理、リハビリテーションなどが含まれます。
                     </p>
+                </div>
+            </div>
+            <div id="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header" data-section="contract">📄 入居契約書</div>
+                    <div class="sidebar-content" id="contract-sections"></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-header" data-section="important">📋 重要事項説明書</div>
+                    <div class="sidebar-content" id="important-sections"></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-header" data-section="consent">✅ 同意書</div>
+                    <div class="sidebar-content" id="consent-sections"></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-header" data-section="admission">🏠 入居に関する同意書</div>
+                    <div class="sidebar-content" id="admission-sections"></div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-header" data-section="pricing">💰 料金表</div>
+                    <div class="sidebar-content" id="pricing-sections"></div>
                 </div>
             </div>
         </main>
@@ -38,10 +61,9 @@
             </div>
             <div id="speed-controls">
                 <label for="speed-range">読み上げ速度:</label>
-                <input type="range" id="speed-range" min="0.5" max="1.5" step="0.1" value="1.0">
+                <input type="range" id="speed-range" min="0.5" max="2.5" step="0.1" value="1.0">
                 <span id="speed-label">1.0倍</span>
             </div>
-            <button id="faq-btn">？ 質問する</button>
         </footer>
     </div>
 
@@ -55,13 +77,16 @@
         </div>
     </div>
 
-    <div id="faq-modal" class="hidden">
-        <div id="faq-content">
-            <h2>よくあるご質問</h2>
-            <div id="faq-list">
-                <!-- FAQ項目がここに動的に追加されます -->
+    <div id="chat-modal" class="hidden">
+        <div id="chat-content">
+            <div id="chat-header">
+                <h2>💬 質問チャット</h2>
+                <button id="close-chat-btn">×</button>
             </div>
-            <button id="close-faq-btn">閉じる</button>
+            <div id="chat-messages"></div>
+            <div id="chat-input-area">
+                <div id="faq-buttons"></div>
+            </div>
         </div>
     </div>
 
