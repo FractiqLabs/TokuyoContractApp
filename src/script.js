@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const characterImage = document.getElementById('character-image');
     const characterName = document.getElementById('character-name');
-    const contractTitle = document.getElementById('contract-title');
-    const contractText = document.getElementById('contract-text');
+    const contractTitle = document.getElementById('subtitle-title');
+    const contractText = document.getElementById('subtitle-text');
     const progressBar = document.getElementById('progress-bar');
+    const progressBarVideo = document.getElementById('progress-bar-video');
     const progressLabel = document.getElementById('progress-label');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -227,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const progressPercent = ((currentIndex + 1) / totalSections) * 100;
         progressBar.style.setProperty('--progress-percent', `${progressPercent}%`);
+        progressBarVideo.style.setProperty('--progress-percent', `${progressPercent}%`);
         progressLabel.textContent = `${currentIndex + 1} / ${totalSections}`;
     }
 
@@ -236,12 +238,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isPaused) {
                 synth.resume();
                 isPaused = false;
-                playPauseBtn.textContent = '❚❚ 一時停止';
+                playPauseBtn.textContent = '⏸';
             } else {
                 synth.pause();
                 isPaused = true;
                 continuousPlay = false;
-                playPauseBtn.textContent = '▶ 再生';
+                playPauseBtn.textContent = '▶';
             }
         } else {
             continuousPlay = true; // 連続再生モードを有効化
@@ -259,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         utterance.onstart = () => {
             isSpeaking = true;
             isPaused = false;
-            playPauseBtn.textContent = '❚❚ 一時停止';
+            playPauseBtn.textContent = '⏸';
             characterImage.classList.add('speaking');
         };
 
@@ -290,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isSpeaking = false;
         isPaused = false;
         continuousPlay = false;
-        playPauseBtn.textContent = '▶ 再生';
+        playPauseBtn.textContent = '▶';
         characterImage.classList.remove('speaking');
     }
 
@@ -335,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     speedRange.addEventListener('input', (e) => {
         speechRate = parseFloat(e.target.value);
-        speedLabel.textContent = `${speechRate.toFixed(1)}倍`;
+        speedLabel.textContent = `${speechRate.toFixed(1)}x`;
         
         // 読み上げ中の場合は即時反映
         if (isSpeaking && !isPaused) {

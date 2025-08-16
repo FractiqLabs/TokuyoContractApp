@@ -16,21 +16,36 @@
             </div>
         </header>
         <main>
-            <div id="character-container">
-                <img src="assets/images/character.svg" alt="VTuberキャラクター" id="character-image">
-                <p id="character-name">説明担当：双葉</p>
-                <button id="faq-btn" class="faq-sidebar-btn">❓ よくある質問</button>
-                <div id="faq-chat-container" class="hidden">
-                    <div id="faq-messages-sidebar"></div>
-                    <div id="faq-buttons-sidebar"></div>
+            <div id="video-container">
+                <div id="character-area">
+                    <img src="assets/images/character.svg" alt="VTuberキャラクター" id="character-image">
+                    <div id="character-info">
+                        <p id="character-name">説明担当：双葉</p>
+                        <button id="faq-btn" class="faq-btn-mini">❓ FAQ</button>
+                        <div id="faq-chat-container" class="hidden">
+                            <div id="faq-messages-sidebar"></div>
+                            <div id="faq-buttons-sidebar"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id="contract-container">
-                <div id="contract-content">
-                    <h2 id="contract-title">第一条：サービスの提供</h2>
-                    <p id="contract-text">
-                        当施設は、入居者様に対し、個別の介護計画に基づき、必要な介護サービスを提供します。サービス内容には、食事、入浴、排泄の介助、健康管理、リハビリテーションなどが含まれます。
-                    </p>
+                <div id="subtitle-area">
+                    <div id="subtitle-content">
+                        <div id="subtitle-title"></div>
+                        <div id="subtitle-text"></div>
+                    </div>
+                </div>
+                <div id="video-controls">
+                    <div id="progress-bar-video"></div>
+                    <div id="control-buttons">
+                        <button id="prev-btn" class="video-btn">⏮</button>
+                        <button id="play-pause-btn" class="video-btn play-btn">▶</button>
+                        <button id="next-btn" class="video-btn">⏭</button>
+                        <button id="complete-btn" class="video-btn complete-btn" style="display: none;">✓</button>
+                        <div id="speed-controls-video">
+                            <input type="range" id="speed-range" min="0.5" max="2.5" step="0.1" value="1.0">
+                            <span id="speed-label">1.0x</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="sidebar">
@@ -71,19 +86,6 @@
                 </div>
             </div>
         </main>
-        <footer>
-            <div id="controls">
-                <button id="prev-btn" class="control-btn">＜ 前へ</button>
-                <button id="play-pause-btn" class="control-btn">▶ 再生</button>
-                <button id="next-btn" class="control-btn">次へ ＞</button>
-                <button id="complete-btn" class="control-btn" style="display: none;">✓ 説明完了</button>
-            </div>
-            <div id="speed-controls">
-                <label for="speed-range">読み上げ速度:</label>
-                <input type="range" id="speed-range" min="0.5" max="2.5" step="0.1" value="1.0">
-                <span id="speed-label">1.0倍</span>
-            </div>
-        </footer>
     </div>
 
     <div id="completion-modal" class="hidden">
