@@ -15,19 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const completionModal = document.getElementById('completion-modal');
     const closeCompletionBtn = document.getElementById('close-completion-btn');
     
-    // Chat Elements
-    const chatBtn = document.getElementById('chat-btn');
-    const chatModal = document.getElementById('chat-modal');
-    const closeChatBtn = document.getElementById('close-chat-btn');
-    const chatMessages = document.getElementById('chat-messages');
-    const faqButtons = document.getElementById('faq-buttons');
     
     // Sidebar Elements
     const sidebar = document.getElementById('sidebar');
 
     // State
     let contractStructure = {};
-    let faqData = [];
     let currentDocument = 'important';
     let currentSectionId = 'i1';
     let isSpeaking = false;
@@ -41,12 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data Loading ---
     async function loadData() {
         try {
-            const [structureRes, faqRes] = await Promise.all([
-                fetch('./src/data/contract_structure.json'),
-                fetch('./src/data/faq.json')
-            ]);
+            const structureRes = await fetch('./src/data/contract_structure.json');
             contractStructure = await structureRes.json();
-            faqData = await faqRes.json();
             initialize();
         } catch (error) {
             console.error('データの読み込みに失敗しました:', error);
@@ -58,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function initialize() {
         buildSidebar();
         updateContent();
-        setupFAQButtons();
         updateProgress();
     }
 
@@ -327,47 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
         completionModal.classList.add('hidden');
     });
 
-    // --- Chat Modal ---
-    chatBtn.addEventListener('click', () => {
-        chatModal.classList.remove('hidden');
-    });
-
-    closeChatBtn.addEventListener('click', () => {
-        chatModal.classList.add('hidden');
-    });
-
-    function setupFAQButtons() {
-        faqButtons.innerHTML = '';
-        faqData.forEach(faq => {
-            const button = document.createElement('button');
-            button.className = 'faq-button';
-            button.textContent = faq.question;
-            button.addEventListener('click', () => {
-                addUserMessage(faq.question);
-                setTimeout(() => {
-                    addBotMessage(faq.answer);
-                    speakText(faq.answer);
-                }, 500);
-            });
-            faqButtons.appendChild(button);
-        });
-    }
-
-    function addUserMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'chat-message user';
-        messageDiv.textContent = message;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function addBotMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'chat-message bot';
-        messageDiv.textContent = message;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
 
     // --- Initial Load ---
     loadData();
