@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeFaqBtn = document.getElementById('close-faq-btn');
     const faqMessages = document.getElementById('faq-messages');
     const faqButtons = document.getElementById('faq-buttons');
+    const faqChatContainer = document.getElementById('faq-chat-container');
+    const faqMessagesSidebar = document.getElementById('faq-messages-sidebar');
+    const faqButtonsSidebar = document.getElementById('faq-buttons-sidebar');
 
     // State
     let contractStructure = {};
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateContent();
         updateProgress();
         setupFAQButtons();
+        setupSidebarFAQ();
     }
 
     // --- Sidebar Management ---
@@ -348,46 +352,81 @@ document.addEventListener('DOMContentLoaded', () => {
         completionModal.classList.add('hidden');
     });
 
-    // --- FAQ Modal ---
+    // --- FAQ Sidebar ---
     faqBtn.addEventListener('click', () => {
-        faqModal.classList.remove('hidden');
-    });
-
-    closeFaqBtn.addEventListener('click', () => {
-        faqModal.classList.add('hidden');
+        faqChatContainer.classList.toggle('hidden');
     });
 
     function setupFAQButtons() {
-        faqButtons.innerHTML = '';
+        if (faqButtons) {
+            faqButtons.innerHTML = '';
+            faqData.forEach(faq => {
+                const button = document.createElement('button');
+                button.className = 'faq-button';
+                button.textContent = faq.question;
+                button.addEventListener('click', () => {
+                    addUserMessage(faq.question);
+                    setTimeout(() => {
+                        addBotMessage(faq.answer);
+                        speakText(faq.answer);
+                    }, 500);
+                });
+                faqButtons.appendChild(button);
+            });
+        }
+    }
+
+    function setupSidebarFAQ() {
+        faqButtonsSidebar.innerHTML = '';
         faqData.forEach(faq => {
             const button = document.createElement('button');
-            button.className = 'faq-button';
+            button.className = 'faq-button-sidebar';
             button.textContent = faq.question;
             button.addEventListener('click', () => {
-                addUserMessage(faq.question);
+                addUserMessageSidebar(faq.question);
                 setTimeout(() => {
-                    addBotMessage(faq.answer);
+                    addBotMessageSidebar(faq.answer);
                     speakText(faq.answer);
                 }, 500);
             });
-            faqButtons.appendChild(button);
+            faqButtonsSidebar.appendChild(button);
         });
     }
 
     function addUserMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'faq-message user';
-        messageDiv.textContent = message;
-        faqMessages.appendChild(messageDiv);
-        faqMessages.scrollTop = faqMessages.scrollHeight;
+        if (faqMessages) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'faq-message user';
+            messageDiv.textContent = message;
+            faqMessages.appendChild(messageDiv);
+            faqMessages.scrollTop = faqMessages.scrollHeight;
+        }
     }
 
     function addBotMessage(message) {
+        if (faqMessages) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'faq-message bot';
+            messageDiv.textContent = message;
+            faqMessages.appendChild(messageDiv);
+            faqMessages.scrollTop = faqMessages.scrollHeight;
+        }
+    }
+
+    function addUserMessageSidebar(message) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'faq-message bot';
+        messageDiv.className = 'faq-message-sidebar user';
         messageDiv.textContent = message;
-        faqMessages.appendChild(messageDiv);
-        faqMessages.scrollTop = faqMessages.scrollHeight;
+        faqMessagesSidebar.appendChild(messageDiv);
+        faqMessagesSidebar.scrollTop = faqMessagesSidebar.scrollHeight;
+    }
+
+    function addBotMessageSidebar(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'faq-message-sidebar bot';
+        messageDiv.textContent = message;
+        faqMessagesSidebar.appendChild(messageDiv);
+        faqMessagesSidebar.scrollTop = faqMessagesSidebar.scrollHeight;
     }
 
     // --- Initial Load ---
