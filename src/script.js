@@ -330,9 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Chat Modal ---
     chatBtn.addEventListener('click', () => {
         chatModal.classList.remove('hidden');
-        if (chatMessages.children.length === 0) {
-            addBotMessage('こんにちは！ご質問がございましたら、下のボタンからお選びください。');
-        }
     });
 
     closeChatBtn.addEventListener('click', () => {
