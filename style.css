@@ -350,6 +350,135 @@ main {
     box-shadow: 0 6px 16px rgba(46, 204, 113, 0.4);
 }
 
+/* 全画面表示ボタンスタイル */
+#fullscreen-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+#fullscreen-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(255,255,255,0.2);
+}
+
+/* 全画面表示時のスタイル */
+.fullscreen-mode {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: #000 !important;
+}
+
+.fullscreen-mode #app-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    background: #000;
+}
+
+.fullscreen-mode header {
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    padding: 10px 20px;
+    height: auto;
+}
+
+.fullscreen-mode main {
+    height: 100vh;
+    padding-top: 60px;
+}
+
+.fullscreen-mode #sidebar {
+    display: none;
+}
+
+.fullscreen-mode #video-container {
+    flex-basis: 100%;
+    width: 100%;
+}
+
+.fullscreen-mode #character-area {
+    padding: 40px;
+}
+
+.fullscreen-mode #character-image {
+    width: clamp(300px, 30vw, 500px);
+    height: clamp(300px, 30vw, 500px);
+}
+
+.fullscreen-mode #vroid-container {
+    width: 100%;
+    height: 100%;
+}
+
+.fullscreen-mode #vroid-canvas {
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.fullscreen-mode #subtitle-area {
+    padding: 20px 30px;
+    min-height: 80px;
+    max-height: 150px;
+}
+
+.fullscreen-mode #subtitle-title {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
+
+.fullscreen-mode #subtitle-text {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.6;
+}
+
+.fullscreen-mode #video-controls {
+    padding: 15px 20px;
+}
+
+.fullscreen-mode .video-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+}
+
+.fullscreen-mode .play-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+}
+
+.fullscreen-mode .complete-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.3rem;
+}
+
+.fullscreen-mode #fullscreen-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+}
+
 #speed-controls-video {
     display: flex;
     align-items: center;
@@ -1042,6 +1171,13 @@ footer {
         font-size: 1.2rem;
     }
     
+    #fullscreen-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1rem;
+    }
+    
     #speed-controls-video {
         gap: 6px;
     }
@@ -1211,6 +1347,13 @@ footer {
         height: 44px;
         border-radius: 50%;
         font-size: 1rem;
+    }
+    
+    #fullscreen-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        font-size: 0.9rem;
     }
     
     #speed-controls-video {

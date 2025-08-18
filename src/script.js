@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const completeBtn = document.getElementById('complete-btn');
     const completionModal = document.getElementById('completion-modal');
     const closeCompletionBtn = document.getElementById('close-completion-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
     
     
     // Sidebar Elements
@@ -46,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // VRoid & VOICEVOX Integration
     let currentVoiceIndex = 1; // 現在の音声インデックス
+    
+    // Fullscreen State
+    let isFullscreen = false;
 
     // --- Data Loading ---
     async function loadData() {
@@ -406,6 +410,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     playPauseBtn.addEventListener('click', handlePlayPause);
+    
+    // Fullscreen button event listener
+    fullscreenBtn?.addEventListener('click', toggleFullscreen);
 
     speedRange.addEventListener('input', (e) => {
         speechRate = parseFloat(e.target.value);
@@ -507,6 +514,81 @@ document.addEventListener('DOMContentLoaded', () => {
         faqMessagesSidebar.appendChild(messageDiv);
         faqMessagesSidebar.scrollTop = faqMessagesSidebar.scrollHeight;
     }
+
+    // --- Fullscreen Functionality ---
+    function toggleFullscreen() {
+        if (!isFullscreen) {
+            enterFullscreen();
+        } else {
+            exitFullscreen();
+        }
+    }
+    
+    function enterFullscreen() {
+        const appContainer = document.getElementById('app-container');
+        
+        // Add fullscreen class
+        document.body.classList.add('fullscreen-mode');
+        
+        // Request fullscreen API
+        if (appContainer.requestFullscreen) {
+            appContainer.requestFullscreen();
+        } else if (appContainer.webkitRequestFullscreen) {
+            appContainer.webkitRequestFullscreen();
+        } else if (appContainer.msRequestFullscreen) {
+            appContainer.msRequestFullscreen();
+        }
+        
+        isFullscreen = true;
+        fullscreenBtn.innerHTML = '⛶'; // Change icon for exit
+        
+        console.log('Entered fullscreen mode');
+    }
+    
+    function exitFullscreen() {
+        // Remove fullscreen class
+        document.body.classList.remove('fullscreen-mode');
+        
+        // Exit fullscreen API
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        
+        isFullscreen = false;
+        fullscreenBtn.innerHTML = '⛶'; // Reset icon
+        
+        console.log('Exited fullscreen mode');
+    }
+    
+    // Listen for fullscreen changes
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            exitFullscreen();
+        }
+    });
+    
+    document.addEventListener('webkitfullscreenchange', () => {
+        if (!document.webkitFullscreenElement) {
+            exitFullscreen();
+        }
+    });
+    
+    document.addEventListener('msfullscreenchange', () => {
+        if (!document.msFullscreenElement) {
+            exitFullscreen();
+        }
+    });
+    
+    // ESC key handling
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFullscreen) {
+            exitFullscreen();
+        }
+    });
 
     // --- Initial Load ---
     loadData();
