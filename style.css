@@ -595,7 +595,7 @@ footer {
 }
 
 /* Modal Styles */
-#faq-modal, #completion-modal {
+#faq-modal, #completion-modal, #progress-warning-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -608,11 +608,11 @@ footer {
     z-index: 1000;
 }
 
-#faq-modal.hidden, #completion-modal.hidden {
+#faq-modal.hidden, #completion-modal.hidden, #progress-warning-modal.hidden {
     display: none;
 }
 
-#faq-content, #completion-content {
+#faq-content, #completion-content, #progress-warning-content {
     background-color: #fff;
     padding: 30px;
     border-radius: 15px;
@@ -621,6 +621,62 @@ footer {
     max-height: 80vh;
     display: flex;
     flex-direction: column;
+}
+
+/* Progress Warning Modal Specific Styles */
+#progress-warning-content {
+    max-width: 500px;
+    text-align: center;
+}
+
+#progress-warning-content h2 {
+    color: #e74c3c;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+#progress-warning-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.warning-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.warning-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 160px;
+}
+
+.warning-btn.danger {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+}
+
+.warning-btn.danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.warning-btn.safe {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+}
+
+.warning-btn.safe:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
 }
 
 #faq-content h2 {

@@ -50,6 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Fullscreen State
     let isFullscreen = false;
+    
+    // Progress Management
+    let sessionStarted = false;
+    let progressSaved = false;
 
     // --- Data Loading ---
     async function loadData() {
@@ -202,6 +206,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Progress Management ---
+    function saveProgress() {
+        const progressData = {
+            currentDocument,
+            currentSectionId,
+            currentVoiceIndex,
+            sessionStarted,
+            timestamp: new Date().getTime()
+        };
+        localStorage.setItem('contractvt_progress', JSON.stringify(progressData));
+        progressSaved = true;
+        console.log('Progress saved:', progressData);
+    }
+    
+    function loadProgress() {
+        try {
+            const savedData = localStorage.getItem('contractvt_progress');
+            if (savedData) {
+                return JSON.parse(savedData);
+            }
+        } catch (error) {
+            console.error('Error loading progress:', error);
+        }
+        return null;
+    }
+    
+    function clearProgress() {
+        localStorage.removeItem('contractvt_progress');
+        resetToInitialState();
+        console.log('Progress cleared - reset to beginning');
+    }
+    
+    function resetToInitialState() {
+        currentDocument = 'important';
+        currentSectionId = 'i1';
+        currentVoiceIndex = 1;
+        sessionStarted = false;
+        progressSaved = false;
+        
+        updateContent();
+        updateProgress();
+        stopSpeech();
+    }
+    
+    function markSessionStarted() {
+        if (!sessionStarted) {
+            sessionStarted = true;
+            saveProgress();
+            console.log('Session started - progress tracking enabled');
+        }
+    }
+
     // --- Content Update ---
     function updateContent() {
         const section = getCurrentSection();
@@ -241,6 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Speech Synthesis ---
     function handlePlayPause() {
+        markSessionStarted();
+        
         if (isSpeaking) {
             if (isPaused) {
                 synth.resume();
@@ -395,17 +453,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
     nextBtn.addEventListener('click', () => {
+        markSessionStarted();
         const currentIndex = getCurrentSectionIndex();
         const totalSections = getTotalSections();
         if (currentIndex < totalSections - 1) {
             navigateToSectionByIndex(currentIndex + 1);
+            saveProgress();
         }
     });
 
     prevBtn.addEventListener('click', () => {
+        markSessionStarted();
         const currentIndex = getCurrentSectionIndex();
         if (currentIndex > 0) {
             navigateToSectionByIndex(currentIndex - 1);
+            saveProgress();
         }
     });
 
@@ -588,6 +650,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && isFullscreen) {
             exitFullscreen();
         }
+    });
+    
+    // --- Page Reload/Leave Warning ---
+    window.addEventListener('beforeunload', (e) => {
+        if (sessionStarted && progressSaved) {
+            const message = '説明途中でページを離れると、進捗がリセットされ最初からやり直しになります。本当に続行しますか？';
+            e.preventDefault();
+            e.returnValue = message;
+            return message;
+        }
+    });
+    
+    // Page visibility change handling
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && sessionStarted) {
+            saveProgress();
+        }
+    });
+    
+    // Page load handling - clear progress on every page load
+    window.addEventListener('load', () => {
+        clearProgress();
+        console.log('Page loaded - progress reset to beginning');
     });
 
     // --- Initial Load ---
