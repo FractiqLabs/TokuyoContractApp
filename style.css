@@ -49,7 +49,7 @@ header h1 {
     font-family: 'TimeMachine-wa', 'M PLUS Rounded 1c', 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
-    color: var(--primary-color);
+    color: #333;
     margin: 0;
     letter-spacing: 1px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
@@ -294,27 +294,60 @@ main {
     background: rgba(255,255,255,0.1);
     color: white;
     border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 12px;
-    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 .video-btn:hover {
     background: rgba(255,255,255,0.2);
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(255,255,255,0.2);
 }
 
 .play-btn {
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    padding: 10px 16px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding: 0;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.play-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
 }
 
 .complete-btn {
     background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     margin-left: auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+.complete-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(46, 204, 113, 0.4);
 }
 
 #speed-controls-video {
@@ -985,13 +1018,28 @@ footer {
     }
     
     .video-btn {
-        padding: 7px 12px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
         font-size: 0.85rem;
-        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
     }
     
     .play-btn {
-        padding: 9px 16px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.3rem;
+    }
+    
+    .complete-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.2rem;
     }
     
     #speed-controls-video {
@@ -1141,13 +1189,28 @@ footer {
     }
     
     .video-btn {
-        padding: 6px 10px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
         font-size: 0.75rem;
-        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
     }
     
     .play-btn {
-        padding: 8px 12px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1.1rem;
+    }
+    
+    .complete-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1rem;
     }
     
     #speed-controls-video {
