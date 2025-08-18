@@ -12,7 +12,7 @@ html, body {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     overflow: hidden;
@@ -39,9 +39,11 @@ header {
 }
 
 header h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: var(--primary-color);
     margin: 0;
+    letter-spacing: 0.5px;
 }
 
 #progress-container {
@@ -69,8 +71,8 @@ header h1 {
 }
 
 #progress-label {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 main {
@@ -176,10 +178,10 @@ main {
     border: none;
     padding: 6px 12px;
     border-radius: 12px;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 120px;
+    min-width: 110px;
 }
 
 .control-btn-mini:hover {
@@ -188,7 +190,7 @@ main {
 }
 
 #character-name {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: white;
     margin: 0 0 8px 0;
@@ -200,7 +202,7 @@ main {
     border: none;
     padding: 6px 12px;
     border-radius: 12px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -840,7 +842,7 @@ footer {
     }
     
     header h1 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     main {
@@ -892,7 +894,7 @@ footer {
     }
     
     header h1 {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     
     #progress-container {
@@ -1040,7 +1042,7 @@ footer {
     }
     
     header h1 {
-        font-size: 1.1rem;
+        font-size: 1.0rem;
     }
     
     #progress-container {
@@ -1250,7 +1252,7 @@ footer {
 /* iPad Mini specific adjustments */
 @media screen and (min-width: 744px) and (max-width: 768px) {
     header h1 {
-        font-size: 1.2rem;
+        font-size: 1.05rem;
     }
     
     #character-image {
