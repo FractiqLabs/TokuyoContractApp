@@ -7,6 +7,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>特養入居契約デジタル化システム</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Three.js and VRM Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@1.0.9/lib/three-vrm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <div id="app-container">
@@ -20,15 +26,32 @@
         <main>
             <div id="video-container">
                 <div id="character-area">
-                    <img src="assets/images/character.svg" alt="VTuberキャラクター" id="character-image">
+                    <!-- VRoid 3D Character Display -->
+                    <div id="vroid-container">
+                        <canvas id="vroid-canvas"></canvas>
+                    </div>
+                    <!-- Fallback 2D Character -->
+                    <img src="assets/images/character.svg" alt="VTuberキャラクター" id="character-image" style="display: none;">
+                    
                     <div id="character-info">
                         <p id="character-name">説明担当：双葉</p>
-                        <button id="faq-btn" class="faq-btn-mini">❓ FAQ</button>
+                        <div id="character-controls">
+                            <button id="upload-vroid-btn" class="control-btn-mini">📁 VRoidアップロード</button>
+                            <button id="upload-voice-btn" class="control-btn-mini">🎤 音声アップロード</button>
+                            <button id="faq-btn" class="faq-btn-mini">❓ FAQ</button>
+                        </div>
                         <div id="faq-chat-container" class="hidden">
                             <div id="faq-messages-sidebar"></div>
                             <div id="faq-buttons-sidebar"></div>
                         </div>
                     </div>
+                    
+                    <!-- Hidden file inputs -->
+                    <input type="file" id="vroid-file-input" accept=".vrm" style="display: none;">
+                    <input type="file" id="voice-file-input" accept=".wav,.mp3" multiple style="display: none;">
+                    
+                    <!-- Audio element for VOICEVOX playback -->
+                    <audio id="voicevox-audio" style="display: none;"></audio>
                 </div>
                 <div id="subtitle-area">
                     <div id="subtitle-content">
@@ -113,6 +136,7 @@
         </div>
     </div>
 
+    <script src="./src/vroid-integration.js"></script>
     <script src="./src/script.js"></script>
 </body>
 </html>

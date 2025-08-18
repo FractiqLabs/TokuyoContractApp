@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Web Speech API
     const synth = window.speechSynthesis;
     let utterance = new SpeechSynthesisUtterance();
+    
+    // VRoid & VOICEVOX Integration
+    let currentVoiceIndex = 1; // 現在の音声インデックス
 
     // --- Data Loading ---
     async function loadData() {
@@ -247,7 +250,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             continuousPlay = true; // 連続再生モードを有効化
-            startSpeech();
+            
+            // VRoid音声が利用可能な場合はそちらを優先
+            if (window.vroidSystem && window.vroidSystem.getCurrentVoiceCount() > 0) {
+                startVRoidSpeech();
+            } else {
+                startSpeech(); // フォールバック：Web Speech API
+            }
         }
     }
 
@@ -285,15 +294,78 @@ document.addEventListener('DOMContentLoaded', () => {
         synth.speak(utterance);
     }
 
+    // VRoid & VOICEVOX音声再生
+    function startVRoidSpeech() {
+        if (!window.vroidSystem) {
+            startSpeech(); // フォールバック
+            return;
+        }
+        
+        try {
+            // 現在のセクションに対応する音声インデックスを使用
+            window.vroidSystem.triggerVoice(currentVoiceIndex);
+            
+            isSpeaking = true;
+            playPauseBtn.textContent = '⏸';
+            characterImage?.classList.add('speaking');
+            
+            // 次の音声インデックスを更新
+            currentVoiceIndex++;
+            
+            // 音声再生終了を監視
+            const audio = document.getElementById('voicevox-audio');
+            if (audio) {
+                const handleVRoidEnd = () => {
+                    audio.removeEventListener('ended', handleVRoidEnd);
+                    
+                    if (continuousPlay) {
+                        const currentIndex = getCurrentSectionIndex();
+                        const totalSections = getTotalSections();
+                        if (currentIndex < totalSections - 1) {
+                            navigateToSectionByIndex(currentIndex + 1);
+                            setTimeout(() => startVRoidSpeech(), 500);
+                        } else {
+                            stopSpeech();
+                            continuousPlay = false;
+                        }
+                    } else {
+                        stopSpeech();
+                    }
+                };
+                
+                audio.addEventListener('ended', handleVRoidEnd);
+            }
+            
+        } catch (error) {
+            console.error('VRoid voice playback failed:', error);
+            // フォールバック：Web Speech API
+            startSpeech();
+        }
+    }
+
     function stopSpeech() {
+        // Web Speech API停止
         if (synth.speaking) {
             synth.cancel();
         }
+        
+        // VRoid音声停止
+        const audio = document.getElementById('voicevox-audio');
+        if (audio && !audio.paused) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+        
+        // VRoidリップシンク停止
+        if (window.vroidSystem) {
+            window.vroidSystem.stopLipSync();
+        }
+        
         isSpeaking = false;
         isPaused = false;
         continuousPlay = false;
         playPauseBtn.textContent = '▶';
-        characterImage.classList.remove('speaking');
+        characterImage?.classList.remove('speaking');
     }
 
     function speakText(text) {
